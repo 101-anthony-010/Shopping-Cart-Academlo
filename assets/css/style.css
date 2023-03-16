@@ -328,12 +328,16 @@ button {
 
 .product {
     overflow: hidden;
-
 }
 
 .product_image {
     padding: var(--sp-1);
     background-color: var(--card-color);
+    transition: background-color .5s ease-in-out;
+}
+
+.product_image:hover {
+    background-color: var(--primary-color);
 }
 
 .product_image img {

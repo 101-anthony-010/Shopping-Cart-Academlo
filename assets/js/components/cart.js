@@ -32,7 +32,7 @@ function cart(db, printProducts) {
                         <img src="${product.image}" alt="${product.name}">
                     </div>
                     <div class="article_content">
-                       <h3 class="article_title">${product.name}</h3> 
+                       <h4 class="article_title">${product.name}</h4> 
                         <span class="article_price">${product.price}</span>
                         <div class="article_quantity">
                             <button type="button" class="article_quantity_btn article_minus" data-id="${item.id}">
@@ -78,6 +78,7 @@ function cart(db, printProducts) {
             }
             if (tabulate[id] > itemFinded.qty ) {
                 itemFinded.qty += qty
+                console.log('first')
             } else {
                 html = `
                     <div class="container-message">
@@ -93,6 +94,7 @@ function cart(db, printProducts) {
             //console.log(limitQty)
         } else {
             cart.push({ id, qty })
+            console.log('prueba')
         }
         filterDOM.innerHTML = html
         printCart()
@@ -130,11 +132,18 @@ function cart(db, printProducts) {
         }
         return total
     }
-
+    
     function checkout() {
+        const persistent = window.localStorage
+        for (const value of db) {
+            persistent.setItem(`id${value.id}`, value.quantity)
+        }
+
         for (const item of cart) {
             const productFinded = db.find(p => p.id === item.id)
-                productFinded.quantity -= item.qty
+
+            productFinded.quantity -= item.qty
+            persistent.setItem(`id${productFinded.id}`, productFinded.quantity)
         }
         if (cart.length) {
             window.alert('Muchas gracias por su Compra')
